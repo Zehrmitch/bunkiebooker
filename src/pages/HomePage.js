@@ -7,34 +7,31 @@ import axios from 'axios';
 
 const collections = [
 	{
-		name: 'Houses',
+		name: 'City Living',
 		href: '#',
 		imageSrc:
-			'https://tailwindui.com/img/ecommerce-images/home-page-01-collection-01.jpg',
+			'https://s3.us-east-2.amazonaws.com/bunkiebooker.bucket/Spaces/DevImg/Cityhome.jpeg',
 		imageAlt:
 			'Brown leather key ring with brass metal loops and rivets on wood table.',
-		description:
-			'Keep your phone, keys, and wallet together, so you can lose everything at once.',
+		description: 'City houses for a quick get away from home.',
 	},
 	{
-		name: 'Vehicles',
+		name: 'Cottages',
 		href: '#',
 		imageSrc:
-			'https://tailwindui.com/img/ecommerce-images/home-page-01-collection-02.jpg',
+			'https://s3.us-east-2.amazonaws.com/bunkiebooker.bucket/Spaces/DevImg/cottage-4.jpeg',
 		imageAlt:
 			'Natural leather mouse pad on white desk next to porcelain mug and keyboard.',
-		description:
-			'The rest of the house will still be a mess, but your desk will look great.',
+		description: 'Remote cottages for a relaxing get away.',
 	},
 	{
-		name: 'Spaces',
+		name: 'Unique Homes',
 		href: '#',
 		imageSrc:
-			'https://tailwindui.com/img/ecommerce-images/home-page-01-collection-03.jpg',
+			'https://s3.us-east-2.amazonaws.com/bunkiebooker.bucket/Spaces/DevImg/unique.jpeg',
 		imageAlt:
 			'Person placing task list card into walnut card holder next to felt carrying case on leather desk pad.',
-		description:
-			'Be more productive than enterprise project managers with a single piece of paper.',
+		description: 'One of a kind homes that are just as weird as you are.',
 	},
 ];
 
@@ -67,44 +64,47 @@ export default function HomePage() {
 	}, [getAccessTokenSilently]); // use effect docs
 
 	return (
-		<div className="bg-white">
+		<div className='bg-white'>
 			{/* Mobile menu */}
 			<Transition.Root show={mobileMenuOpen} as={Fragment}>
 				<Dialog
-					as="div"
-					className="fixed inset-0 flex z-40 lg:hidden"
+					as='div'
+					className='fixed inset-0 flex z-40 lg:hidden'
 					onClose={setMobileMenuOpen}
 				>
 					<Transition.Child
 						as={Fragment}
-						enter="transition-opacity ease-linear duration-300"
-						enterFrom="opacity-0"
-						enterTo="opacity-100"
-						leave="transition-opacity ease-linear duration-300"
-						leaveFrom="opacity-100"
-						leaveTo="opacity-0"
+						enter='transition-opacity ease-linear duration-300'
+						enterFrom='opacity-0'
+						enterTo='opacity-100'
+						leave='transition-opacity ease-linear duration-300'
+						leaveFrom='opacity-100'
+						leaveTo='opacity-0'
 					>
-						<Dialog.Overlay className="fixed inset-0 bg-black bg-opacity-25" />
+						<Dialog.Overlay className='fixed inset-0 bg-black bg-opacity-25' />
 					</Transition.Child>
 
 					<Transition.Child
 						as={Fragment}
-						enter="transition ease-in-out duration-300 transform"
-						enterFrom="-translate-x-full"
-						enterTo="translate-x-0"
-						leave="transition ease-in-out duration-300 transform"
-						leaveFrom="translate-x-0"
-						leaveTo="-translate-x-full"
+						enter='transition ease-in-out duration-300 transform'
+						enterFrom='-translate-x-full'
+						enterTo='translate-x-0'
+						leave='transition ease-in-out duration-300 transform'
+						leaveFrom='translate-x-0'
+						leaveTo='-translate-x-full'
 					>
-						<div className="relative max-w-xs w-full bg-white shadow-xl pb-12 flex flex-col overflow-y-auto">
-							<div className="px-4 pt-5 pb-2 flex">
+						<div className='relative max-w-xs w-full bg-white shadow-xl pb-12 flex flex-col overflow-y-auto'>
+							<div className='px-4 pt-5 pb-2 flex'>
 								<button
-									type="button"
-									className="-m-2 p-2 rounded-md inline-flex items-center justify-center text-gray-400"
+									type='button'
+									className='-m-2 p-2 rounded-md inline-flex items-center justify-center text-gray-400'
 									onClick={() => setMobileMenuOpen(false)}
 								>
-									<span className="sr-only">Close menu</span>
-									<XIcon className="h-6 w-6" aria-hidden="true" />
+									<span className='sr-only'>Close menu</span>
+									<XIcon
+										className='h-6 w-6'
+										aria-hidden='true'
+									/>
 								</button>
 							</div>
 
@@ -115,75 +115,76 @@ export default function HomePage() {
 			</Transition.Root>
 
 			{/* Hero section */}
-			<div className="relative bg-gray-900">
+			<div className='relative bg-gray-900'>
 				{/* Decorative image and overlay */}
-				<div aria-hidden="true" className="absolute inset-0 overflow-hidden">
+				<div
+					aria-hidden='true'
+					className='absolute inset-0 overflow-hidden'
+				>
 					<img
-						src="https://tailwindui.com/img/ecommerce-images/home-page-01-hero-full-width.jpg"
-						alt=""
-						className="w-full h-full object-center object-cover"
+						src='https://s3.us-east-2.amazonaws.com/bunkiebooker.bucket/Spaces/DevImg/Landing+House.jpeg'
+						alt=''
+						className='w-full h-full object-center object-cover'
 					/>
 				</div>
 				<div
-					aria-hidden="true"
-					className="absolute inset-0 bg-gray-900 opacity-50"
+					aria-hidden='true'
+					className='absolute inset-0 bg-gray-900 opacity-50'
 				/>
 
-				<div className="relative max-w-3xl mx-auto py-32 px-6 flex flex-col items-center text-center sm:py-64 lg:px-0">
-					<h1 className="text-4xl font-extrabold tracking-tight text-white lg:text-6xl">
-						New arrivals are here
+				<div className='relative max-w-3xl mx-auto py-32 px-6 flex flex-col items-center text-center sm:py-64 lg:px-0'>
+					<h1 className='text-4xl font-extrabold tracking-tight text-white lg:text-6xl'>
+						New homes are here!
 					</h1>
-					<p className="mt-4 text-xl text-white">
-						The new arrivals have, well, newly arrived. Check out the latest
-						options from our summer small-batch release while they're still in
-						stock.
+					<p className='mt-4 text-xl text-white'>
+						Look at the newest listings in all categories.
 					</p>
 					<a
-						href="/space/1"
-						className="mt-8 inline-block bg-white border border-transparent rounded-md py-3 px-8 text-base font-medium text-gray-900 hover:bg-gray-100"
+						href='/spaces'
+						className='mt-8 inline-block bg-white border border-transparent rounded-md py-3 px-8 text-base font-medium text-gray-900 hover:bg-gray-100'
 					>
-						Shop New Arrivals
+						View Listings
 					</a>
 				</div>
 			</div>
 
 			<main>
 				<section
-					aria-labelledby="collection-heading"
-					className="max-w-xl mx-auto pt-24 px-4 py-24 sm:pt-32 sm:px-6 lg:max-w-7xl lg:px-8"
+					aria-labelledby='collection-heading'
+					className='max-w-xl mx-auto pt-24 px-4 py-24 sm:pt-32 sm:px-6 lg:max-w-7xl lg:px-8'
 				>
 					<h2
-						id="collection-heading"
-						className="text-2xl font-extrabold tracking-tight text-gray-900"
+						id='collection-heading'
+						className='text-2xl font-extrabold tracking-tight text-gray-900'
 					>
 						Shop by Category
 					</h2>
-					<p className="mt-4 text-base text-gray-500">
-						Each season, we collaborate with world-class designers to create a
-						collection inspired by the natural world.
+					<p className='mt-4 text-base text-gray-500'>
+						Each season, things change and you should go discover
+						the natural world.
 					</p>
 
-					<div className="mt-10 space-y-12 lg:space-y-0 lg:grid lg:grid-cols-3 lg:gap-x-8">
+					<div className='mt-10 space-y-12 lg:space-y-0 lg:grid lg:grid-cols-3 lg:gap-x-8'>
 						{collections.map((collection) => (
 							<a
 								key={collection.name}
 								href={collection.href}
-								className="group block"
+								className='group block'
 							>
 								<div
-									aria-hidden="true"
-									className="aspect-w-3 aspect-h-2 rounded-lg overflow-hidden group-hover:opacity-75 lg:aspect-w-5 lg:aspect-h-6"
+									aria-hidden='true'
+									className='aspect-w-3 aspect-h-2 rounded-lg overflow-hidden group-hover:opacity-75 lg:aspect-w-5 lg:aspect-h-6'
 								>
 									<img
 										src={collection.imageSrc}
 										alt={collection.imageAlt}
-										className="w-full h-full object-center object-cover"
+										className='w-full h-[185px] object-center object-cover'
 									/>
 								</div>
-								<h3 className="mt-4 text-base font-semibold text-gray-900">
+								<h3 className='mt-4 text-base font-semibold text-gray-900'>
 									{collection.name}
 								</h3>
-								<p className="mt-2 text-sm text-gray-500">
+								<p className='mt-2 text-sm text-gray-500'>
 									{collection.description}
 								</p>
 							</a>
@@ -192,13 +193,13 @@ export default function HomePage() {
 				</section>
 			</main>
 
-			<footer aria-labelledby="footer-heading" className="bg-gray-900">
-				<h2 id="footer-heading" className="sr-only">
+			<footer aria-labelledby='footer-heading' className='bg-gray-900'>
+				<h2 id='footer-heading' className='sr-only'>
 					Footer
 				</h2>
-				<div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-					<div className="border-t border-gray-800 py-10">
-						<p className="text-sm text-gray-400">
+				<div className='max-w-7xl mx-auto px-4 sm:px-6 lg:px-8'>
+					<div className='border-t border-gray-800 py-10'>
+						<p className='text-sm text-gray-400'>
 							Copyright &copy; 2021 Bunkie Booker Inc.
 						</p>
 					</div>

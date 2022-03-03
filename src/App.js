@@ -1,7 +1,6 @@
 import React, { Fragment } from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { useAuth0 } from '@auth0/auth0-react';
-import ProtectedRoute from './auth/ProtectedRoute';
 import Loading from './components/Loading';
 import LandingPage from './pages/LandingPage.js';
 import ListingsPage from './pages/ListingsPage';
@@ -19,28 +18,37 @@ function App() {
 
 	if (isLoading) {
 		return <Loading />;
-	}
-
-	if (error) {
+	} else if (error) {
 		return <div>Oops... {error.message}</div>;
+	} else {
+		return (
+			<Routes>
+				<Route path='/' element={<LandingPage />}></Route>
+				<Route path='app' element={<SideNavPage />}>
+					<Route path='home' element={<HomePage />}></Route>
+					<Route
+						path='listings'
+						exact
+						element={<ListingsPage />}
+					></Route>
+					<Route path='uploadImage' element={<ImageUpload />}></Route>
+					<Route path='payment/:id' element={<PaymentPage />}></Route>
+					<Route path='calendar' element={<Calendar />}></Route>
+					<Route
+						path='space/:id'
+						element={<SpaceOverviewPage />}
+					></Route>
+					<Route
+						path='new/space'
+						exact
+						element={<NewSpacePage />}
+					></Route>
+					<Route path='*' element={<NotFoundPage />} />
+				</Route>
+				<Route path='*' element={<NotFoundPage />} />
+			</Routes>
+		);
 	}
-
-	return (
-		<Routes>
-			<Route path="/" element={<LandingPage />}></Route>
-			<Route path="app" element={<SideNavPage />}>
-				<Route path="home" element={<HomePage />}></Route>
-				<Route path="space" exact element={<ListingsPage />}></Route>
-				<Route path="uploadImage" element={<ImageUpload />}></Route>
-				<Route path="payment/:id" element={<PaymentPage />}></Route>
-				<Route path="calendar" element={<Calendar />}></Route>
-				<Route path="space/:id" element={<SpaceOverviewPage />}></Route>
-				<Route path="new/space" exact element={<NewSpacePage />}></Route>
-				<Route path="*" element={<NotFoundPage />} />
-			</Route>
-			<Route path="*" element={<NotFoundPage />} />
-		</Routes>
-	);
 }
 
 export default App;
