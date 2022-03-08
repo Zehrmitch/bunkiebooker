@@ -1,5 +1,4 @@
 import React, { useState, useRef } from 'react';
-import { useAuth0 } from '@auth0/auth0-react';
 import ImageUploadPreview from './ImageUploadPreview';
 
 const ImageUploadButton = (props) => {
@@ -16,27 +15,31 @@ const ImageUploadButton = (props) => {
 	const handleFileChange = (e) => {
 		let newFiles = [];
 		let allowedTypes = ['jpg', 'jpeg', 'png', 'gif'];
+		// Check upload matches type
 		for (var i = 0; i < e.target.files.length; i++) {
 			if (allowedTypes.includes(e.target.files[i].type.split('/')[1])) {
 				newFiles.push(e.target.files[i]);
 			}
 		}
+		// Spread array files and new files
 		setFiles([...files, ...newFiles]);
 	};
 
 	const deleteFile = (fileName) => {
 		setFiles(
-			files.filter((file, index, arr) => {
+			files.filter((file) => {
 				return file.name !== fileName;
 			})
 		);
 	};
 
 	const cancelUpload = () => {
+		// Close modal and clear uploads
 		setShowModal(false);
 		setFiles([]);
 	};
 
+	// Upload and reset the files array
 	const handleUpload = async () => {
 		setShowModal(false);
 		uploadImages(files);
@@ -48,6 +51,7 @@ const ImageUploadButton = (props) => {
 	};
 
 	const dropHandler = (e) => {
+		// Check file change
 		e.preventDefault();
 		let newFiles = [];
 		let allowedTypes = ['jpg', 'jpeg', 'png', 'gif'];

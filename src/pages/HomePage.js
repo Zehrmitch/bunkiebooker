@@ -8,30 +8,27 @@ import axios from 'axios';
 const collections = [
 	{
 		name: 'City Living',
-		href: '#',
+		href: '/app/listings',
 		imageSrc:
 			'https://s3.us-east-2.amazonaws.com/bunkiebooker.bucket/Spaces/DevImg/Cityhome.jpeg',
-		imageAlt:
-			'Brown leather key ring with brass metal loops and rivets on wood table.',
+		imageAlt: 'City House',
 		description: 'City houses for a quick get away from home.',
 	},
 	{
 		name: 'Cottages',
-		href: '#',
+		href: '/app/listings',
 		imageSrc:
 			'https://s3.us-east-2.amazonaws.com/bunkiebooker.bucket/Spaces/DevImg/cottage-4.jpeg',
-		imageAlt:
-			'Natural leather mouse pad on white desk next to porcelain mug and keyboard.',
+		imageAlt: 'A Cottage',
 		description: 'Remote cottages for a relaxing get away.',
 	},
 	{
 		name: 'Unique Homes',
-		href: '#',
+		href: '/app/listings',
 		imageSrc:
 			'https://s3.us-east-2.amazonaws.com/bunkiebooker.bucket/Spaces/DevImg/unique.jpeg',
-		imageAlt:
-			'Person placing task list card into walnut card holder next to felt carrying case on leather desk pad.',
-		description: 'One of a kind homes that are just as weird as you are.',
+		imageAlt: 'Unique Home',
+		description: 'One of a kind homes that are just as unique as you are.',
 	},
 ];
 
@@ -55,13 +52,11 @@ export default function HomePage() {
 						// handle success
 						console.log(response);
 					});
-
-				// const res = await response.json();
 			} catch (e) {
 				console.error(e);
 			}
 		})();
-	}, [getAccessTokenSilently]); // use effect docs
+	}, [getAccessTokenSilently]);
 
 	return (
 		<div className='bg-white'>
@@ -116,7 +111,6 @@ export default function HomePage() {
 
 			{/* Hero section */}
 			<div className='relative bg-gray-900'>
-				{/* Decorative image and overlay */}
 				<div
 					aria-hidden='true'
 					className='absolute inset-0 overflow-hidden'
@@ -140,7 +134,7 @@ export default function HomePage() {
 						Look at the newest listings in all categories.
 					</p>
 					<a
-						href='/spaces'
+						href='/app/listings'
 						className='mt-8 inline-block bg-white border border-transparent rounded-md py-3 px-8 text-base font-medium text-gray-900 hover:bg-gray-100'
 					>
 						View Listings

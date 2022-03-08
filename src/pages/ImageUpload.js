@@ -27,6 +27,8 @@ class ImageUpload extends Component {
 		let fileName = fileParts[0];
 		let fileType = fileParts[1];
 		console.log('Preparing the upload');
+
+		// Gets a signed url
 		axios
 			.post('http://localhost:8080/sign_s3', {
 				fileName: fileName,
@@ -45,6 +47,7 @@ class ImageUpload extends Component {
 						'Content-Type': fileType,
 					},
 				};
+				// Puts to the signed url with the file to upload
 				axios
 					.put(signedRequest, file, options)
 					.then((result) => {

@@ -1,5 +1,5 @@
 import React, { useState, Fragment } from 'react';
-import { Outlet } from 'react-router-dom';
+import { Outlet, useNavigate } from 'react-router-dom';
 import { Dialog, Transition } from '@headlessui/react';
 import {
 	PlusIcon,
@@ -27,75 +27,190 @@ function classNames(...classes) {
 
 export default function SideNavPage({ children }) {
 	const [sidebarOpen, setSidebarOpen] = useState(false);
-	const { user } = useAuth0();
+	const { user, isAuthenticated } = useAuth0();
+
+	let navigate = useNavigate();
 
 	function setId(id) {
 		sessionStorage.setItem('id', id);
 	}
 
-	return (
-		<div className='h-screen flex overflow-hidden bg-gray-100'>
-			<Transition.Root show={sidebarOpen} as={Fragment}>
-				<Dialog
-					as='div'
-					className='fixed inset-0 flex z-40 md:hidden'
-					onClose={setSidebarOpen}
-				>
-					<Transition.Child
-						as={Fragment}
-						enter='transition-opacity ease-linear duration-300'
-						enterFrom='opacity-0'
-						enterTo='opacity-100'
-						leave='transition-opacity ease-linear duration-300'
-						leaveFrom='opacity-100'
-						leaveTo='opacity-0'
+	if (!isAuthenticated) {
+		return (
+			<div className='min-h-screen pt-16 pb-12 flex flex-col bg-white'>
+				<main className='flex-grow flex flex-col justify-center max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8'>
+					<div className='flex-shrink-0 flex justify-center'>
+						<a href='/' className='inline-flex'>
+							<span className='sr-only'>Workflow</span>
+							<img
+								className='h-36 w-auto'
+								src='https://i.ibb.co/GVP1y2D/Bunkie-Booker-name-logo.png'
+								alt=''
+							/>
+						</a>
+					</div>
+					<div className='py-16'>
+						<div className='text-center'>
+							<p className='text-sm font-semibold text-indigo-600 uppercase tracking-wide'>
+								Please Login
+							</p>
+							<div className='mt-6'>
+								<a
+									href='/'
+									className='text-base font-medium text-indigo-600 hover:text-indigo-500'
+								>
+									Go back home
+									<span aria-hidden='true'> &rarr;</span>
+								</a>
+							</div>
+						</div>
+					</div>
+				</main>
+			</div>
+		);
+	} else {
+		return (
+			<div className='h-screen flex overflow-hidden bg-gray-100'>
+				<Transition.Root show={sidebarOpen} as={Fragment}>
+					<Dialog
+						as='div'
+						className='fixed inset-0 flex z-40 md:hidden'
+						onClose={setSidebarOpen}
 					>
-						<Dialog.Overlay className='fixed inset-0 bg-gray-600 bg-opacity-75' />
-					</Transition.Child>
-					<Transition.Child
-						as={Fragment}
-						enter='transition ease-in-out duration-300 transform'
-						enterFrom='-translate-x-full'
-						enterTo='translate-x-0'
-						leave='transition ease-in-out duration-300 transform'
-						leaveFrom='translate-x-0'
-						leaveTo='-translate-x-full'
-					>
-						<div className='relative flex-1 flex flex-col max-w-xs w-full bg-white'>
-							<Transition.Child
-								as={Fragment}
-								enter='ease-in-out duration-300'
-								enterFrom='opacity-0'
-								enterTo='opacity-100'
-								leave='ease-in-out duration-300'
-								leaveFrom='opacity-100'
-								leaveTo='opacity-0'
-							>
-								<div className='absolute top-0 right-0 -mr-12 pt-2'>
-									<button
-										type='button'
-										className='ml-1 flex items-center justify-center h-10 w-10 rounded-full focus:outline-none focus:ring-2 focus:ring-inset focus:ring-white'
-										onClick={() => setSidebarOpen(false)}
-									>
-										<span className='sr-only'>
-											Close sidebar
-										</span>
-										<XIcon
-											className='h-6 w-6 text-white'
-											aria-hidden='true'
+						<Transition.Child
+							as={Fragment}
+							enter='transition-opacity ease-linear duration-300'
+							enterFrom='opacity-0'
+							enterTo='opacity-100'
+							leave='transition-opacity ease-linear duration-300'
+							leaveFrom='opacity-100'
+							leaveTo='opacity-0'
+						>
+							<Dialog.Overlay className='fixed inset-0 bg-gray-600 bg-opacity-75' />
+						</Transition.Child>
+						<Transition.Child
+							as={Fragment}
+							enter='transition ease-in-out duration-300 transform'
+							enterFrom='-translate-x-full'
+							enterTo='translate-x-0'
+							leave='transition ease-in-out duration-300 transform'
+							leaveFrom='translate-x-0'
+							leaveTo='-translate-x-full'
+						>
+							<div className='relative flex-1 flex flex-col max-w-xs w-full bg-white'>
+								<Transition.Child
+									as={Fragment}
+									enter='ease-in-out duration-300'
+									enterFrom='opacity-0'
+									enterTo='opacity-100'
+									leave='ease-in-out duration-300'
+									leaveFrom='opacity-100'
+									leaveTo='opacity-0'
+								>
+									<div className='absolute top-0 right-0 -mr-12 pt-2'>
+										<button
+											type='button'
+											className='ml-1 flex items-center justify-center h-10 w-10 rounded-full focus:outline-none focus:ring-2 focus:ring-inset focus:ring-white'
+											onClick={() =>
+												setSidebarOpen(false)
+											}
+										>
+											<span className='sr-only'>
+												Close sidebar
+											</span>
+											<XIcon
+												className='h-6 w-6 text-white'
+												aria-hidden='true'
+											/>
+										</button>
+									</div>
+								</Transition.Child>
+								<div className='flex-1 h-0 pt-5 pb-4 overflow-y-auto'>
+									<div className='flex-shrink-0 flex items-center px-4'>
+										<img
+											className='h-24 w-auto '
+											src='https://i.ibb.co/GVP1y2D/Bunkie-Booker-name-logo.png'
+											alt='Workflow'
 										/>
-									</button>
+									</div>
+									<nav className='mt-5 px-2 space-y-1'>
+										{navigation.map((item) => (
+											<a
+												onClick={() => setId(item.id)}
+												key={item.name}
+												href={item.href}
+												className={classNames(
+													item.id ==
+														sessionStorage.getItem(
+															'id'
+														)
+														? 'bg-gray-100 text-gray-900'
+														: 'text-gray-600 hover:bg-gray-50 hover:text-gray-900',
+													'group flex items-center px-2 py-2 text-base font-medium rounded-md'
+												)}
+											>
+												<item.icon
+													className={classNames(
+														item.id ==
+															sessionStorage.getItem(
+																'id'
+															)
+															? 'text-gray-500'
+															: 'text-gray-400 group-hover:text-gray-500',
+														'mr-4 flex-shrink-0 h-6 w-6'
+													)}
+													aria-hidden='true'
+												/>
+												{item.name}
+											</a>
+										))}
+									</nav>
 								</div>
-							</Transition.Child>
-							<div className='flex-1 h-0 pt-5 pb-4 overflow-y-auto'>
-								<div className='flex-shrink-0 flex items-center px-4'>
+								<div className='flex-shrink-0 flex border-t border-gray-200 p-4'>
+									<a
+										href='/app/profile'
+										className='flex-shrink-0 group block'
+									>
+										<div className='flex items-center'>
+											<div>
+												<img
+													className='inline-block h-10 w-10 rounded-full'
+													src={user.picture}
+													alt=''
+												/>
+											</div>
+											<div className='ml-3'>
+												<p className='text-base font-medium text-gray-700 group-hover:text-gray-900'>
+													{user.nickname}
+												</p>
+												<p className='text-sm font-medium text-gray-500 group-hover:text-gray-700'>
+													View profile
+												</p>
+											</div>
+										</div>
+									</a>
+								</div>
+							</div>
+						</Transition.Child>
+						<div className='flex-shrink-0 w-14'>
+							{/* Force sidebar to shrink to fit close icon */}
+						</div>
+					</Dialog>
+				</Transition.Root>
+
+				{/* Static sidebar for desktop */}
+				<div className='hidden md:flex md:flex-shrink-0'>
+					<div className='flex flex-col w-64'>
+						<div className='flex-1 flex flex-col min-h-0 border-r border-gray-200 bg-white'>
+							<div className='flex-1 flex flex-col pt-5 pb-4 overflow-y-auto'>
+								<div className='flex items-center flex-shrink-0 px-4'>
 									<img
-										className='h-24 w-auto '
+										className='h-32 w-auto'
 										src='https://i.ibb.co/GVP1y2D/Bunkie-Booker-name-logo.png'
 										alt='Workflow'
 									/>
 								</div>
-								<nav className='mt-5 px-2 space-y-1'>
+								<nav className='mt-5 flex-1 px-2 bg-white space-y-1'>
 									{navigation.map((item) => (
 										<a
 											onClick={() => setId(item.id)}
@@ -106,7 +221,7 @@ export default function SideNavPage({ children }) {
 													sessionStorage.getItem('id')
 													? 'bg-gray-100 text-gray-900'
 													: 'text-gray-600 hover:bg-gray-50 hover:text-gray-900',
-												'group flex items-center px-2 py-2 text-base font-medium rounded-md'
+												'group flex items-center px-2 py-2 text-sm font-medium rounded-md'
 											)}
 										>
 											<item.icon
@@ -117,7 +232,7 @@ export default function SideNavPage({ children }) {
 														)
 														? 'text-gray-500'
 														: 'text-gray-400 group-hover:text-gray-500',
-													'mr-4 flex-shrink-0 h-6 w-6'
+													'mr-3 flex-shrink-0 h-6 w-6'
 												)}
 												aria-hidden='true'
 											/>
@@ -127,132 +242,63 @@ export default function SideNavPage({ children }) {
 								</nav>
 							</div>
 							<div className='flex-shrink-0 flex border-t border-gray-200 p-4'>
-								<a
-									href='/app/profile'
-									className='flex-shrink-0 group block'
-								>
+								<a className='flex-shrink-0 w-full group block'>
 									<div className='flex items-center'>
-										<div>
+										<div href='/app/profile'>
 											<img
-												className='inline-block h-10 w-10 rounded-full'
+												className='inline-block h-9 w-9 rounded-full'
 												src={user.picture}
 												alt=''
 											/>
 										</div>
-										<div className='ml-3'>
-											<p className='text-base font-medium text-gray-700 group-hover:text-gray-900'>
+										<div
+											href='/app/profile'
+											className='ml-5'
+										>
+											<p className='text-sm font-medium text-gray-700 group-hover:text-gray-900'>
 												{user.nickname}
 											</p>
-											<p className='text-sm font-medium text-gray-500 group-hover:text-gray-700'>
+											<p className='text-xs font-medium text-gray-500 group-hover:text-gray-700'>
 												View profile
+											</p>
+										</div>
+										<div>
+											<p className='inline-block ml-3'>
+												<LogoutButton></LogoutButton>
 											</p>
 										</div>
 									</div>
 								</a>
 							</div>
 						</div>
-					</Transition.Child>
-					<div className='flex-shrink-0 w-14'>
-						{/* Force sidebar to shrink to fit close icon */}
 					</div>
-				</Dialog>
-			</Transition.Root>
-
-			{/* Static sidebar for desktop */}
-			<div className='hidden md:flex md:flex-shrink-0'>
-				<div className='flex flex-col w-64'>
-					<div className='flex-1 flex flex-col min-h-0 border-r border-gray-200 bg-white'>
-						<div className='flex-1 flex flex-col pt-5 pb-4 overflow-y-auto'>
-							<div className='flex items-center flex-shrink-0 px-4'>
-								<img
-									className='h-32 w-auto'
-									src='https://i.ibb.co/GVP1y2D/Bunkie-Booker-name-logo.png'
-									alt='Workflow'
-								/>
+				</div>
+				<div className='flex flex-col w-0 flex-1 overflow-hidden'>
+					<div className='md:hidden pl-1 pt-1 sm:pl-3 sm:pt-3'>
+						<button
+							type='button'
+							className='-ml-0.5 -mt-0.5 h-12 w-12 inline-flex items-center justify-center rounded-md text-gray-500 hover:text-gray-900 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-indigo-500'
+							onClick={() => setSidebarOpen(true)}
+						>
+							<span className='sr-only'>Open sidebar</span>
+							<MenuIcon className='h-6 w-6' aria-hidden='true' />
+						</button>
+					</div>
+					<main className='flex-1 relative z-0 overflow-y-auto focus:outline-none'>
+						<div className='py-6'>
+							<div className='max-w-7xl mx-auto px-4 sm:px-6 md:px-8'>
+								<h1 className='text-2xl font-semibold text-gray-900'>
+									{navigation.name}
+								</h1>
 							</div>
-							<nav className='mt-5 flex-1 px-2 bg-white space-y-1'>
-								{navigation.map((item) => (
-									<a
-										onClick={() => setId(item.id)}
-										key={item.name}
-										href={item.href}
-										className={classNames(
-											item.id ==
-												sessionStorage.getItem('id')
-												? 'bg-gray-100 text-gray-900'
-												: 'text-gray-600 hover:bg-gray-50 hover:text-gray-900',
-											'group flex items-center px-2 py-2 text-sm font-medium rounded-md'
-										)}
-									>
-										<item.icon
-											className={classNames(
-												item.id ==
-													sessionStorage.getItem('id')
-													? 'text-gray-500'
-													: 'text-gray-400 group-hover:text-gray-500',
-												'mr-3 flex-shrink-0 h-6 w-6'
-											)}
-											aria-hidden='true'
-										/>
-										{item.name}
-									</a>
-								))}
-							</nav>
+							<div className='max-w-7xl mx-auto px-4 sm:px-6 md:px-8'>
+								{children}
+								<Outlet />
+							</div>
 						</div>
-						<div className='flex-shrink-0 flex border-t border-gray-200 p-4'>
-							<a className='flex-shrink-0 w-full group block'>
-								<div className='flex items-center'>
-									<div href='/app/profile'>
-										<img
-											className='inline-block h-9 w-9 rounded-full'
-											src={user.picture}
-											alt=''
-										/>
-									</div>
-									<div href='/app/profile' className='ml-5'>
-										<p className='text-sm font-medium text-gray-700 group-hover:text-gray-900'>
-											{user.nickname}
-										</p>
-										<p className='text-xs font-medium text-gray-500 group-hover:text-gray-700'>
-											View profile
-										</p>
-									</div>
-									<div>
-										<p className='inline-block ml-3'>
-											<LogoutButton></LogoutButton>
-										</p>
-									</div>
-								</div>
-							</a>
-						</div>
-					</div>
+					</main>
 				</div>
 			</div>
-			<div className='flex flex-col w-0 flex-1 overflow-hidden'>
-				<div className='md:hidden pl-1 pt-1 sm:pl-3 sm:pt-3'>
-					<button
-						type='button'
-						className='-ml-0.5 -mt-0.5 h-12 w-12 inline-flex items-center justify-center rounded-md text-gray-500 hover:text-gray-900 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-indigo-500'
-						onClick={() => setSidebarOpen(true)}
-					>
-						<span className='sr-only'>Open sidebar</span>
-						<MenuIcon className='h-6 w-6' aria-hidden='true' />
-					</button>
-				</div>
-				<main className='flex-1 relative z-0 overflow-y-auto focus:outline-none'>
-					<div className='py-6'>
-						<div className='max-w-7xl mx-auto px-4 sm:px-6 md:px-8'>
-							<h1 className='text-2xl font-semibold text-gray-900'>
-								{navigation.name}
-							</h1>
-						</div>
-						<div className='max-w-7xl mx-auto px-4 sm:px-6 md:px-8'>
-							{children}
-							<Outlet />
-						</div>
-					</div>
-				</main>
-			</div>
-		</div>
-	);
+		);
+	}
 }

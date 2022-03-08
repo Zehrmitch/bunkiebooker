@@ -6,6 +6,7 @@ import {
 	InformationCircleIcon,
 	CurrencyDollarIcon,
 } from '@heroicons/react/outline';
+import Loading from '../components/Loading';
 
 export default function ListingsPage() {
 	const { user, getAccessTokenSilently } = useAuth0();
@@ -52,7 +53,7 @@ export default function ListingsPage() {
 		);
 	}
 
-	if (loading) return <p>Loading</p>;
+	if (loading) return <Loading />;
 	else {
 		return (
 			<ul
